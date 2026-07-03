@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Modern Charcoal & Warm Champagne Beige Identity */
+  --color-primary: #1C1C1E;          /* Soft Charcoal Black */
+  --color-primary-dark: #121213;     /* Darker Charcoal Black */
+  --color-background-milky: #D4C9BA; /* Warm Champagne Beige */
+  --color-card-soft: #D4C9BA;        /* Warm Champagne Beige for light indicators */
+  --color-charcoal: #1C1C1E;         /* Text / Primary Dark elements */
+  --color-stone: rgba(28, 28, 30, 0.7); /* Muted Dark Charcoal text */
+  --color-border-sand: rgba(28, 28, 30, 0.12); /* Subtle Border */
+}
+
+/* Custom premium typography and transition defaults */
+body {
+  font-family: var(--font-sans);
+  background-color: #D4C9BA !important; /* Force Warm Champagne Beige background throughout */
+  color: #1C1C1E;
+  transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+/* Glassmorphic Cards and Overlays */
+.glass-card {
+  background: rgba(255, 255, 255, 0.65) !important; /* 65% opacity white background */
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  border: 1px solid rgba(28, 28, 30, 0.08) !important;
+  box-shadow: 0 4px 12px 0 rgba(28, 28, 30, 0.04) !important; /* Level 2 Shadow (medium) */
+  transition: all 250ms ease-in-out !important;
+  border-radius: 16px !important;
+  color: #1C1C1E !important;
+}
+
+/* Cards Hover: Lift, Scale, Shadow Increase (Level 4), and Border Glow */
+.glass-card:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 12px 30px 0 rgba(28, 28, 30, 0.12) !important; /* Level 4 shadow */
+  border-color: rgba(28, 28, 30, 0.15) !important;
+}
+
+/* Dialogs, Popups Glassmorphism & Level 3 Shadow */
+.dialog-glass, [role="dialog"], .notes-popup, .notif-popup {
+  background: rgba(255, 255, 255, 0.45) !important; /* 45% white background with 20px blur */
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(28, 28, 30, 0.08) !important;
+  box-shadow: 0 20px 48px 0 rgba(28, 28, 30, 0.15) !important; /* Level 3 / Level 4 Shadow */
+  transition: all 300ms ease-in-out !important;
+}
+
+/* Primary Button Design & Micro-Interactions */
+button.bg-primary, .btn-primary {
+  background-color: #1C1C1E !important;
+  color: #D4C9BA !important;
+  font-weight: 700 !important;
+  transition: all 250ms ease-in-out !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(28, 28, 30, 0.08) !important; /* Level 1 Shadow */
+  border-radius: 12px !important;
+}
+
+button.bg-primary:hover:not(:disabled), .btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.02) !important;
+  background-color: #2C2C2E !important; /* Slightly lighter charcoal */
+  box-shadow: 0 8px 20px rgba(28, 28, 30, 0.22) !important; /* Level 4 Shadow */
+}
+
+button.bg-primary:active:not(:disabled), .btn-primary:active:not(:disabled) {
+  transform: translateY(0px) scale(0.98) !important;
+}
+
+button.bg-primary:disabled, .btn-primary:disabled {
+  opacity: 0.5 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  cursor: not-allowed !important;
+}
+
+/* Secondary Button Design & Hover State */
+button.bg-transparent.border, button.border:not(.bg-primary):not(.bg-white):not(.bg-rose-500):not(.bg-emerald-500) {
+  background-color: transparent !important;
+  border: 1px solid #1C1C1E !important;
+  color: #1C1C1E !important;
+  transition: all 200ms ease-in-out !important;
+}
+
+button.bg-transparent.border:hover:not(:disabled), button.border:not(.bg-primary):not(.bg-white):not(.bg-rose-500):not(.bg-emerald-500):hover:not(:disabled) {
+  background-color: rgba(28, 28, 30, 0.06) !important; /* Subtle hover backdrop overlay */
+  transform: translateY(-1.5px) scale(1.01) !important;
+}
+
+/* Inputs, Textareas, Selects styling */
+input, select, textarea {
+  background-color: #ffffff !important;
+  color: #1C1C1E !important;
+  border: 1px solid rgba(28, 28, 30, 0.15) !important;
+  transition: all 200ms ease-in-out !important;
+  border-radius: 0.75rem !important; /* 12px rounded-xl */
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(28, 28, 30, 0.45) !important; /* Placeholder style */
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #1C1C1E !important;
+  box-shadow: 0 0 0 3px rgba(28, 28, 30, 0.20) !important; /* Focus Ring */
+  outline: none !important;
+}
+
+/* Tables Custom Brand Look */
+table thead tr {
+  background-color: #1C1C1E !important;
+  color: #D4C9BA !important;
+}
+
+table thead th {
+  color: #D4C9BA !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  font-size: 9px !important;
+  letter-spacing: 0.05em !important;
+}
+
+table tbody tr {
+  background-color: #ffffff !important; /* Explicitly White row background */
+  transition: all 200ms ease-in-out !important;
+}
+
+table tbody tr:hover {
+  background-color: rgba(28, 28, 30, 0.04) !important; /* Table Row Hover */
+}
+
+/* Custom compact elements */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-sand);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Print utilities for receipts and invoices */
+@media print {
+  body, html {
+    background: white !important;
+    color: black !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Hide all non-essential elements */
+  .no-print, 
+  aside, 
+  header, 
+  nav, 
+  button, 
+  .quick-add-menu,
+  input, 
+  select,
+  textarea {
+    display: none !important;
+  }
+
+  /* Make sure the main content fills the page */
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  /* Expand any glass-card or printable cards to be full page print ready */
+  .glass-card, .print-card, .print-buyer-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+
+  /* Ensure tables print elegantly */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    page-break-inside: auto !important;
+  }
+  tr {
+    page-break-inside: avoid !important;
+    page-break-after: auto !important;
+  }
+  thead {
+    display: table-header-group !important;
+  }
+}

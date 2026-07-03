@@ -1,0 +1,8 @@
+{
+  "name": "Remix: VSR Ledger",
+  "description": "Mobile-first Full Stack Micro ERP \u0026 Business Ledger Web Application for private business management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
