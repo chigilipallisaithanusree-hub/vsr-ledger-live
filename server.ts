@@ -901,6 +901,42 @@ if (supabase) {
 
 // --- API ROUTES ---
 
+// 0. Production Health Check
+app.get("/api/health-check", async (req, res) => {
+  const isSupabaseConfigured = !!supabaseUrl && !!supabaseKey;
+  const isSupabaseInitialized = supabase !== null;
+  let supabaseConnectionSuccess = false;
+  let supabaseError = null;
+
+  if (isSupabaseInitialized) {
+    try {
+      const { error } = await supabase.from("profiles").select("id").limit(1);
+      if (error) {
+        supabaseError = error.message;
+      } else {
+        supabaseConnectionSuccess = true;
+      }
+    } catch (err: any) {
+      supabaseError = err.message || err;
+    }
+  }
+
+  res.json({
+    status: "ok",
+    environment: {
+      isVercel: !!process.env.VERCEL,
+      nodeEnv: process.env.NODE_ENV
+    },
+    supabase: {
+      configured: isSupabaseConfigured,
+      initialized: isSupabaseInitialized,
+      connected: supabaseConnectionSuccess,
+      error: supabaseError,
+      url: supabaseUrl ? `${supabaseUrl.substring(0, 15)}...` : "missing"
+    }
+  });
+});
+
 // 1. Authentication
 app.post("/api/auth/login", (req, res) => {
   const { username, password } = req.body;

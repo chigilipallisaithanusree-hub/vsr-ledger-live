@@ -26,6 +26,15 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     return localStorage.getItem("pavan_auth") === "true";
   });
+
+  // Toast Notification State
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+  const showToast = (message: string, type: "success" | "error" = "success") => {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast(null);
+    }, 4000);
+  };
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
@@ -386,10 +395,18 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(buyerData)
       });
+      
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Server error code ${res.status}`);
+      }
+
       await fetchAllData();
       saveLogs("Create", "Buyers", `Registered client account ${buyerData.name}`);
-    } catch (e) {
-      console.error(e);
+      showToast(`Successfully registered buyer: ${buyerData.name}`, "success");
+    } catch (e: any) {
+      console.error("Failed to add buyer:", e);
+      showToast(e.message || "Failed to add buyer. Please check server logs.", "error");
     }
   };
 
@@ -400,20 +417,36 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updates)
       });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Server error code ${res.status}`);
+      }
+
       await fetchAllData();
       saveLogs("Update", "Buyers", `Modified company details for ${updates.name || id}`);
-    } catch (e) {
-      console.error(e);
+      showToast("Buyer details updated successfully.", "success");
+    } catch (e: any) {
+      console.error("Failed to update buyer:", e);
+      showToast(e.message || "Failed to update buyer.", "error");
     }
   };
 
   const handleDeleteBuyer = async (id: string) => {
     try {
       const res = await fetch(`/api/buyers/${id}`, { method: "DELETE" });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Server error code ${res.status}`);
+      }
+
       await fetchAllData();
       saveLogs("Delete", "Buyers", `Purged client account ID ${id}`);
-    } catch (e) {
-      console.error(e);
+      showToast("Buyer deleted successfully.", "success");
+    } catch (e: any) {
+      console.error("Failed to delete buyer:", e);
+      showToast(e.message || "Failed to delete buyer.", "error");
     }
   };
 
@@ -1489,6 +1522,22 @@ export default function App() {
 
         </main>
       </div>
+
+      {/* Toast Notification HUD */}
+      {toast && (
+        <div className={`fixed bottom-5 right-5 z-50 px-4 py-3 rounded-xl border shadow-lg font-bold flex items-center gap-2.5 transition-all ${
+          toast.type === "error" 
+            ? "bg-rose-50 border-rose-200 text-rose-800 animate-fade-in" 
+            : "bg-emerald-50 border-emerald-200 text-emerald-800 animate-fade-in"
+        }`}>
+          {toast.type === "error" ? (
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600 animate-pulse" />
+          ) : (
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+          )}
+          <span className="text-[11px] font-sans font-semibold leading-normal">{toast.message}</span>
+        </div>
+      )}
     </div>
   );
 }
